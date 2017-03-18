@@ -9,8 +9,8 @@ The component has both iOS and Android support.
 ![](screenshots/screenshot-1.png)
 ![](screenshots/screenshot-2.png)
 
-### Installation 
-```npm install react-native-photo-browser --save``` 
+### Installation
+```npm install react-native-photo-browser --save```
 
 or ```npm install react-native-photo-browser@https://github.com/ksti/react-native-photo-browser.git --save```
 
@@ -25,6 +25,7 @@ or ```npm install react-native-photo-browser@https://github.com/ksti/react-nativ
 |**`displayNavArrows`**|Boolean|Whether to display left and right nav arrows on bottom toolbar.|`false`|
 |**`enableGrid`**|Boolean|Whether to allow the viewing of all the photo thumbnails on a grid.|`true`|
 |**`startOnGrid`**|Boolean|Whether to start on the grid of thumbnails instead of the first photo.|`false`|
+|**`displayTopBar`**|Boolean|Whether to display the TopBar|`true`|
 |**`displaySelectionButtons`**|Boolean|Whether selection buttons are shown on each image.|`false`|
 |**`useCircleProgress`**_iOS_|Boolean|Displays Progress.Circle instead of default Progress.Bar for full screen photos. Check [Progress](#progress-component) section for more info.|`false`|
 |**`onSelectionChanged`**|Function|Called when a media item is selected or unselected.|`(media, index, isSelected) => {}`|
@@ -73,7 +74,7 @@ _onTopRight = (currentMedia, currentIndex, gallery) => {
         },
       })
     }
-    
+
   }
 
   _renderModalPhotoBrowser = () => {
