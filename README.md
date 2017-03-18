@@ -9,8 +9,10 @@ The component has both iOS and Android support.
 ![](screenshots/screenshot-1.png)
 ![](screenshots/screenshot-2.png)
 
-### Installation
-```npm install react-native-photo-browser --save```
+### Installation 
+```npm install react-native-photo-browser --save``` 
+
+or ```npm install react-native-photo-browser@https://github.com/ksti/react-native-photo-browser.git --save```
 
 ### Properties
 
@@ -19,7 +21,6 @@ The component has both iOS and Android support.
 |**`mediaList`**|Array\<Media\>|List of [media objects](#media-object) to display.|`[]`|
 |**`initialIndex`**|Number|Sets the visible photo initially.|`0`|
 |**`alwaysShowControls`**|Boolean|Allows to control whether the bars and controls are always visible or whether they fade away to show the photo full.|`false`|
-|**`displayTopBar`**|Boolean|Whether to display the TopBar|`true`|
 |**`displayActionButton`**|Boolean|Show action button to allow sharing, copying, etc.|`false`|
 |**`displayNavArrows`**|Boolean|Whether to display left and right nav arrows on bottom toolbar.|`false`|
 |**`enableGrid`**|Boolean|Whether to allow the viewing of all the photo thumbnails on a grid.|`true`|
@@ -42,6 +43,79 @@ const media = {
 };
 ```
 
+### Usage
+```js
+_onTopRight = (currentMedia, currentIndex, gallery) => {
+    console.log('currentMedia:' + currentMedia + 'currentIndex:' + currentIndex);
+    gallery && gallery.deleteImageRef(currentIndex);
+    let initialIndex = Math.max(0, currentIndex - 1);
+    let images = this.state.images;
+    if (images.length > 1) {
+      images.splice(currentIndex, 1); // 删掉选中的照片
+      // update state
+      this.setState({
+        imageDataSource: this.state.imageDataSource.cloneWithRows(images),
+        images: images,
+        configPhotoBrowser: {
+          ...this.state.configPhotoBrowser,
+          initialIndex: initialIndex,
+          media: images.slice(0, images.length - 1),
+        },
+      })
+    } else {
+      this.setState({
+        imageDataSource: this.state.imageDataSource.cloneWithRows(images),
+        images: images,
+        configPhotoBrowser: {
+          ...this.state.configPhotoBrowser,
+          initialIndex: initialIndex,
+          media: images.slice(0, images.length - 1),
+        },
+      })
+    }
+    
+  }
+
+  _renderModalPhotoBrowser = () => {
+    const {
+      media,
+      initialIndex,
+      displayNavArrows,
+      displayActionButton,
+      displaySelectionButtons,
+      startOnGrid,
+      enableGrid,
+    } = this.state.configPhotoBrowser;
+
+    return (
+      <Modal
+        animationType={"none"}
+        transparent={true}
+        visible={this.state.showPhotoBrowser}>
+        <View
+          style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0}}>
+          <PhotoBrowser
+            onBack={() => this.setState({showPhotoBrowser: false})}
+            mediaList={media}
+            initialIndex={initialIndex}
+            displayNavArrows={displayNavArrows}
+            displaySelectionButtons={displaySelectionButtons}
+            displayActionButton={displayActionButton}
+            startOnGrid={startOnGrid}
+            enableGrid={enableGrid}
+            useCircleProgress
+            onSelectionChanged={this._onSelectionChanged}
+            onActionButton={this._onActionButton}
+            onTopRight={this._onTopRight}
+            topRightView={this._renderTopRightView()}
+            topRightStyle={{overflow: 'hidden'}}
+            useGallery={true}
+          />
+        </View>
+      </Modal>
+    );
+  }
+```
 
 ### Progress Component
 
@@ -71,7 +145,7 @@ Follow those steps to run the example:
 - [x] Android support
 - [ ] Improve performance for bigger collections
 - [ ] Video support
-- [ ] Photo zoom
+- [x] Photo zoom
 - [ ] Zooming photos to fill the screen
 
 ### Licence
